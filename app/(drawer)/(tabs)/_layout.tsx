@@ -22,7 +22,7 @@ export default function TabsLayout() {
             <MaterialIcons
               name="task"
               size={size}
-              color={focused ? "green" : color} // Set green if the tab is active
+              color={focused ? "green" : color}
             />
           ),
           headerShown: false,

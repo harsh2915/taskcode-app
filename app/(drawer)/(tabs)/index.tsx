@@ -5,18 +5,23 @@ import {
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { Link } from "expo-router";
 
 const Home = () => {
   return (
     <ImageBackground
-      source={require("../../../assets/images/bg.jpg")} // Adjust path as necessary
+      source={require("../../../assets/images/bg.jpg")}
       style={styles.background}
       resizeMode="cover"
     >
       <View style={styles.container}>
-        {/* Welcome Message */}
+        <Image
+          source={require("../../../assets/images/icon.png")}
+          style={styles.appIcon}
+        />
+
         <Text style={styles.welcomeText}>Welcome to TaskCode</Text>
 
         <Text style={styles.description}>
@@ -28,13 +33,6 @@ const Home = () => {
         <TouchableOpacity style={styles.taskButton}>
           <Link href="/task">
             <Text style={styles.taskButtonText}>Go to Task Section</Text>
-          </Link>
-        </TouchableOpacity>
-
-        {/* Additional Navigation Buttons (optional) */}
-        <TouchableOpacity style={styles.aboutButton}>
-          <Link href="/about">
-            <Text style={styles.aboutButtonText}>Learn More About Us</Text>
           </Link>
         </TouchableOpacity>
       </View>
@@ -51,11 +49,17 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.6)", // Dark transparent background for content
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
     borderRadius: 10,
     padding: 30,
     justifyContent: "center",
     alignItems: "center",
+  },
+  appIcon: {
+    width: 100,
+    height: 100,
+    marginBottom: 20,
+    borderRadius: 50,
   },
   welcomeText: {
     fontSize: 30,
