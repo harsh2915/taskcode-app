@@ -17,7 +17,7 @@ const Home = () => {
     >
       <View style={styles.container}>
         {/* Welcome Message */}
-        <Text style={styles.welcomeText}>Welcome to Your Task Manager</Text>
+        <Text style={styles.welcomeText}>Welcome to TaskCode</Text>
 
         <Text style={styles.description}>
           Stay organized and boost your productivity. Manage your tasks
