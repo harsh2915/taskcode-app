@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
+  ImageBackground,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -37,8 +38,12 @@ const TaskApp = () => {
 
   const addTask = () => {
     if (taskText.trim()) {
-      setTasks([...tasks, { id: Date.now(), name: taskText, isDone: false }]);
-      setTaskText("");
+      if (taskText.length <= 20) {
+        setTasks([...tasks, { id: Date.now(), name: taskText, isDone: false }]);
+        setTaskText("");
+      } else {
+        alert("Task name should not exceed 20 characters.");
+      }
     }
   };
 
@@ -50,14 +55,20 @@ const TaskApp = () => {
     );
   };
 
+  const deleteTask = (id: number) => {
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
   const TaskItem = ({
     taskName,
     onToggleDone,
     isDone,
+    onDelete,
   }: {
     taskName: string;
     onToggleDone: () => void;
     isDone: boolean;
+    onDelete: () => void;
   }) => {
     return (
       <View style={styles.taskContainer}>
@@ -69,36 +80,47 @@ const TaskApp = () => {
         <Text style={[styles.taskText, isDone && styles.taskTextDone]}>
           {taskName}
         </Text>
+        <TouchableOpacity
+          onPress={onDelete}
+          style={styles.deleteButton}
+        ></TouchableOpacity>
       </View>
     );
   };
 
   return (
-    <View style={styles.container}>
-      {/* Input Section */}
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter a task"
-          value={taskText}
-          onChangeText={setTaskText}
-        />
-        <Button title="Add" onPress={addTask} />
-      </View>
-
-      {/* Task List */}
-      <FlatList
-        data={tasks}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <TaskItem
-            taskName={item.name}
-            isDone={item.isDone}
-            onToggleDone={() => toggleTaskDone(item.id)}
+    <ImageBackground
+      source={require("../../../assets/images/bg.jpg")} // Adjust path as necessary
+      style={styles.container}
+      resizeMode="cover" // Adjusts how the image is scaled
+    >
+      <View style={styles.container}>
+        {/* Input Section */}
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter a task"
+            value={taskText}
+            onChangeText={setTaskText}
           />
-        )}
-      />
-    </View>
+          <Button title="Add" onPress={addTask} />
+        </View>
+
+        {/* Task List */}
+        <FlatList
+          data={tasks}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <TaskItem
+              taskName={item.name}
+              isDone={item.isDone}
+              onToggleDone={() => toggleTaskDone(item.id)}
+              onDelete={() => deleteTask(item.id)}
+            />
+          )}
+        />
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -106,7 +128,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#fff",
   },
   inputContainer: {
     flexDirection: "row",
@@ -119,6 +140,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginRight: 10,
     borderRadius: 5,
+    backgroundColor: "#fff",
   },
   taskContainer: {
     flexDirection: "row",
@@ -127,6 +149,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     backgroundColor: "#f8f8f8",
     borderRadius: 5,
+    justifyContent: "space-between",
   },
   checkbox: {
     width: 24,
@@ -151,6 +174,14 @@ const styles = StyleSheet.create({
   taskTextDone: {
     textDecorationLine: "line-through",
     color: "#aaa",
+  },
+  deleteButton: {
+    backgroundColor: "#ff4d4d",
+    width: 20, // Set the width for a smaller size
+    height: 20,
+    borderRadius: 20, // Circular button
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

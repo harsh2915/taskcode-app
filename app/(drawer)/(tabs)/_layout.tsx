@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 export default function TabsLayout() {
   return (
@@ -18,8 +18,12 @@ export default function TabsLayout() {
         name="task"
         options={{
           title: "Task",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="settings" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <MaterialIcons
+              name="task"
+              size={size}
+              color={focused ? "green" : color} // Set green if the tab is active
+            />
           ),
           headerShown: false,
         }}
